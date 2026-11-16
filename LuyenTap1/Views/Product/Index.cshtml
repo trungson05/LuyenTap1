@@ -1,0 +1,79 @@
+@model LuyenTap1.Models.ProductPageViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    <input name="searchString" type="text" value="@ViewBag.fillterName" />
+    <button type="submit">Tim</button>
+    <a asp-action="Index">Tat ca</a>
+</form>
+<p>
+    Sap xep theo:
+    <a asp-action="Index" asp-route-sortOrder="name_tang">Ten(A-Z)|</a>
+    <a asp-action="Index" asp-route-sortOrder="name_giam">Ten(Z-A)|</a>
+    <a asp-action="Index" asp-route-sortOrder="price_tang">Gia tang dan|</a>
+    <a asp-action="Index" asp-route-sortOrder="price_giam">Gia giam dan|</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ProductName
+            </th>
+            <th>
+                ProductPrice
+            </th>
+            <th>
+                ProductDescription
+            </th>
+            <th>
+                CategoryName
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>
+                    @item.ProductName
+                </td>
+                <td>
+                    @item.ProductPrice
+                </td>
+                <td>
+                    @item.ProductDescription
+                </td>
+                <td>
+                    @item.CategoryName
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    Trang:
+    @for (int i = 1; i <= Model.totalPages; i++)
+    {
+        <a asp-action="Index"
+           asp-route-pageNumber="@i"
+           asp-route-searchString="@Model.searchString"
+           asp-route-sortOrder="@Model.sortOrder">
+            Trang @i
+
+        </a> <span>|</span>
+    }
+</div>
